@@ -16,13 +16,11 @@ import com.lopezalex.foody.viewmodels.MainViewModel
 import com.lopezalex.foody.R
 import com.lopezalex.foody.adapters.RecipesAdapter
 import com.lopezalex.foody.databinding.FragmentRecipesBinding
-import com.lopezalex.foody.util.Constants.Companion.API_KEY
 import com.lopezalex.foody.util.NetworkListener
 import com.lopezalex.foody.util.NetworkResult
 import com.lopezalex.foody.util.observeOnce
 import com.lopezalex.foody.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipes.view.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -63,7 +61,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
             recipesViewModel.backOnline = it
         })
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
             networkListener.checkNetworkAvailability(requireContext())
                 .collect { status ->
@@ -137,6 +135,7 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
                     response.data?.let { mAdapter.setData(it) }
+                    recipesViewModel.saveMealAndDietType()
                 }
                 is NetworkResult.Error -> {
                     hideShimmerEffect()
@@ -190,9 +189,8 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recyclerView.hideShimmer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
-
 }

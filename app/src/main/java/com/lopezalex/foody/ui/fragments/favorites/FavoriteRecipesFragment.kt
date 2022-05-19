@@ -12,7 +12,6 @@ import com.lopezalex.foody.adapters.FavoriteRecipesAdapter
 import com.lopezalex.foody.databinding.FragmentFavoriteRecipesBinding
 import com.lopezalex.foody.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_favorite_recipes.view.*
 
 @AndroidEntryPoint
 class FavoriteRecipesFragment : Fragment() {
@@ -26,7 +25,7 @@ class FavoriteRecipesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
 
         // Inflate the layout for this fragment
@@ -47,12 +46,6 @@ class FavoriteRecipesFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-        mAdapter.clearContextualActionMode()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.favorite_recipes_menu, menu)
     }
@@ -71,5 +64,11 @@ class FavoriteRecipesFragment : Fragment() {
             message,
             Snackbar.LENGTH_SHORT
         ).setAction("Okay"){}.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        mAdapter.clearContextualActionMode()
     }
 }
