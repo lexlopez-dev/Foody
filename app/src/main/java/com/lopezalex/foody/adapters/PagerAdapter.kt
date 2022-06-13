@@ -19,7 +19,7 @@ class PagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.d("PagerAdapter", "returning fragment position in $position")
+        Log.d("PagerAdapter", "returning fragment position in ${fragments[position]}")
         fragments[position].arguments = resultBundle
         return fragments[position]
     }

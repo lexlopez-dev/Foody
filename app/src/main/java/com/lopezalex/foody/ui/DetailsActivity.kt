@@ -71,11 +71,17 @@ class DetailsActivity : AppCompatActivity() {
             adapter = pagerAdapter
         }
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
+        TabLayoutMediator(binding.detailsTabLayout, binding.viewPager2) { tab, position ->
 
             tab.text = titles[position]
 
+            //Logging for debugging purposes
+            Log.d("TabLayoutMediator", "TAB: $tab")
+            Log.d("TabLayoutMediator", "POSITION: $position")
+            Log.d("TabLayoutMediator", "TAB TEXT: ${tab.text}")
+
         }.attach()
+
 
     }
 
